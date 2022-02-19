@@ -8,6 +8,8 @@ const Thappatodo = ()=> {
     mobileNo:"",
     password:"",
 });
+
+
   const [records,setRecords]=useState([]);
   const handleInput= (e) => {
     const name =e.target.name;
@@ -17,6 +19,55 @@ const Thappatodo = ()=> {
     setitems({ ...items, [name] : value });
      
   } 
+  // -----------------------------------------------------------------
+  const deleteItems=(id)=>{
+    console.log("clickid",id);
+    const update = records.filter((cur)=>{
+      return cur.id !==id;
+    })
+    setRecords(update);
+  };
+  //--------------------------------------------------------------------
+    const addItem=()=>{
+      if (!records){
+        alert("plz fill Data");
+      }else if(records && !toggleSubmit){
+        setitems(
+          items.map((curE)=>{
+              if(curE.id===isEdit){
+                return{...curE,name:records}
+              }
+              return curE; 
+          })
+        )
+          //setToggleSubmit(false); //same
+          //setRecords('');       //to remove input element after editing and adding
+          //setIsEdit(null);      //same
+
+        }else{
+        const allInputData={id:new Date().getTime.toString(),name:records}
+        setitems([...items,allInputData]);
+        setRecords('')
+      }
+    } 
+ 
+ 
+  const [toggleSubmit,setToggleSubmit]=useState(true);
+  const [isEdit,setIsEdit]=useState(null);
+  const editItems=(id)=>{
+      let newEdititems=records.find((curE)=>{
+        return curE.id==id
+      });
+      console.log(newEdititems);
+      setToggleSubmit(false);
+
+      setRecords(newEdititems.name);
+      setIsEdit(id);
+      
+
+
+    }
+  //----------------------------------------------------------------------
    const submitForm=(e)=>{
     e.preventDefault();
 
@@ -55,7 +106,13 @@ const Thappatodo = ()=> {
           onChange={handleInput}
           />
         </div>
-        <button type="submit">Login</button>
+         <div>
+          toggleSubmit ? <> <button type="submit">Submit</button></> : <>
+          <button type="submit">EditItems</button></>
+
+
+        </div>
+        {/* <button type="submit">Login</button>  */}
 
       </form>
       
@@ -80,7 +137,7 @@ const Thappatodo = ()=> {
         </div>
     </div> 
     </thead>  
-        <tbody>  
+        <tbody>
             
       {
         records.map((curE) =>{
@@ -99,17 +156,19 @@ const Thappatodo = ()=> {
             <div className='col-sm'>{curE.email}</div>
             <div className='col-sm'>{curE.mobileNo}</div>
             <div className='col-sm'>{curE.password}</div>
-            <div className='col-sm'>{curE.Edit}<button btn-btn-primary>Edit</button></div>
-             <div className='col-sm'>{curE.Delete}<button btn-btn-primary>Delete</button></div> 
+            <div className='col-sm'>{curE.editItems}<button className='btn btn-primary' onClick={()=>editItems(curE.id)}>Edit</button></div>
+            <div className='col-sm'>{curE.deleteItems}<button onClick={()=>deleteItems(curE.id)}  >Delete</button></div> 
+            
         </div>
-    </div> 
+          </div> 
             </div>
             
           )
          
         })
       }
-        
+  
+       
         </tbody>
       </table>
     </div>

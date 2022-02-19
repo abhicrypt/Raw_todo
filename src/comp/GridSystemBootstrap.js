@@ -30,8 +30,25 @@ function GridSystemBootstrap() {
                 </div>
             </div>
         </div>
+        
+       toggleSubmit ? <><button type="submit">Submit</button></> : <>
+          <button type="submit">Edit</button></>
+         <br/>
 
-    </div>
+          <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">
+  Single toggle
+</button>
+<br/>
+
+const [toggleSubmit,settoggle] = useState(true) ;
+
+{
+<div>
+toggleSubmit ? <i class="fa fa-edit add-btn" ></i> :
+<i class="fa fa-plus-square" aria-hidden="true"></i> <br/> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+</div>
+}
+  </div>
   )
 }
 
